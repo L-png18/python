@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .models import Produto
 
 def index(request):
     context = {'curso': 'Desenvolvimento de Sistemas'}
@@ -11,3 +13,31 @@ def contato(request):
         'email': 'contato@ifsc.edu.br'
     }
     return render(request, 'contato.html', context)
+
+def produto(request):
+    produtos = Produto.objects.all()
+    context = {'produtos': produtos}  
+    return render(request, "produto.html", context)
+
+def cadastrarProduto(request):
+    return render(request, "cadastrarProduto.html")
+
+def salvarProduto(request):
+    thisnome = request.POST.get('txtNome')
+    thispreco = request.POST.get('txtPreco')
+    thisqtde = request.POST.get('txtQtde')
+    thisdata = request.POST.get('txtData')
+    thisdescricao = request.POST.get('txtDescricao')
+
+    print(thisnome)
+
+    produto = Produto(
+        nome = thisnome,
+        preco = float(thispreco),
+        qtde = thisqtde,
+        data = thisdata,
+        descricao = thisdescricao
+    )
+
+    produto.save()
+    return redirect('urlproduto')

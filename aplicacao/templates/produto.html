@@ -1,0 +1,50 @@
+{% load bootstrap5 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Produtos</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    <div class="container">
+    <h1>Lista de Produtos</h1>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Qtde</th>
+            <th scope="col">Data</th>
+            <th scope="col">Descrição</th>
+          </tr>
+        </thead>
+       
+        
+       
+        <tbody>
+        {% for produto in produtos %}
+          <tr>
+            <th scope="row">{{produto.id}}</th>
+            <td>{{produto.nome}}</td>
+            <td> {{produto.preco}}</td>
+            <td> {{produto.qtde}}</td>
+            <td> {{produto.data}}</td>
+            <td> {{produto.descricao}}</td>
+          </tr>
+          {% endfor %}
+        
+        </tbody>
+      </table>
+        <form action="{% url 'urlcadastrarProduto' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Novo Produto" class="btn btn-primary"/>
+        </form>
+    </div>
+
+</body>
+</html>
