@@ -29,7 +29,25 @@ def salvarProduto(request):
     thisdata = request.POST.get('txtData')
     thisdescricao = request.POST.get('txtDescricao')
 
-    print(thisnome)
+    produto = Produto(
+        nome = thisnome,
+        preco = float(thispreco),
+        qtde = thisqtde,
+        data = thisdata,
+        descricao = thisdescricao
+    )
+
+    produto.save()
+    return redirect('urlproduto')
+
+def editarProduto(request, id):
+    produto = Produto.objects.get(id=id)
+
+    thisnome = request.POST.get('txtNome')
+    thispreco = request.POST.get('txtPreco')
+    thisqtde = request.POST.get('txtQtde')
+    thisdata = request.POST.get('txtData')
+    thisdescricao = request.POST.get('txtDescricao')
 
     produto = Produto(
         nome = thisnome,
@@ -41,3 +59,5 @@ def salvarProduto(request):
 
     produto.save()
     return redirect('urlproduto')
+
+    
