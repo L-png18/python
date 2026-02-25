@@ -36,7 +36,7 @@
             <td> {{produto.data}}</td>
             <td> {{produto.descricao}}</td>
             <td>
-                <form action="{% url 'urleditarProduto' produto.id %}" method="POST">
+                <form action="{% url 'urleditarProduto' produto.id %}" method="get">
                     {% csrf_token %}
                     <input type="submit" value="Editar" class="btn btn-primary">
                 </form>

@@ -48,18 +48,16 @@ def editarProduto(request, id):
         return render(request, "editarProduto.html", context)
     else: 
         thisnome = request.POST.get('txtNome')
-        thispreco = request.POST.get('txtPreco')
+        thispreco = request.POST.get('txtPreco').replace(',','.')
         thisqtde = request.POST.get('txtQtde')
         thisdata = request.POST.get('txtData')
         thisdescricao = request.POST.get('txtDescricao')
 
-        produto = Produto(
-            nome = thisnome,
-            preco = float(thispreco),
-            qtde = thisqtde,
-            data = thisdata,
-            descricao = thisdescricao
-        )
+        produto.nome = thisnome
+        produto.preco = float(thispreco)
+        produto.qtde = thisqtde
+        produto.data = thisdata
+        produto.descricao = thisdescricao
 
         produto.save()
         return redirect('urlproduto')
