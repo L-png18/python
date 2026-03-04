@@ -12,12 +12,12 @@
 <body>
     <div class="container">
     <h1>Edição de produto</h1>
-    <form action="{% url 'urleditarProduto' produto.id %}" method="post">
+    <form action="{% url 'urleditarProduto' produto.id %}" method="POST">
         {% csrf_token %}
     <input type="text" name="txtNome" value="{{produto.nome}}" class="form-control">
     <input type="text" name="txtPreco" value="{{produto.preco}}" class="form-control">
     <input type="number" name="txtQtde" value="{{produto.qtde}}" class="form-control">
-    <input type="date" name="txtData" value="{{produto.data}}" class="form-control">
+    <input type="date" name="txtData" value="{{produto.data}}" class="form-control" required>
     <input type="text" name="txtDescricao" value="{{produto.descricao}}" class="form-control">
 
         <input type="submit" value="Salvar" class="btn btn-success">
