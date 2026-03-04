@@ -3,8 +3,7 @@ from django.http import HttpResponse
 from .models import Produto
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib import login_required
-
+from django.contrib import messages
 
 def index(request):
     context = {'curso': 'Desenvolvimento de Sistemas'}
@@ -76,7 +75,9 @@ def entrar(request):
 
     if request.method == "GET":
         return render(request, "entrar.html")
-    else:
+    elif request.method == "POST":
+        usuario = request.POST.get("txtUser")
+        senha = request.POST.get("txtPass")
         return HttpResponse('entrou')
 
     
