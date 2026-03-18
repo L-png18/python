@@ -1,0 +1,50 @@
+{% extends 'global/base.html' %}
+
+{% block title %}
+  Produtos
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+       
+        <div class="mb-3">
+            <a href="{% url 'urlsalvarProdutos' %}" class="btn btn-primary">➕ Novo produto</a>
+
+            <a href="{% url 'urlsair' %}" class="btn btn-danger">
+                Sair
+            </a>
+        </div>
+
+        <h1>Lista de Produtos</h1>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Preço</th>
+                    <th>Descrição</th>
+                    <th>Quantidade</th>
+                    <th>Data de validade</th>
+                    <th>Editar</th>
+                </tr>
+            </thead>
+            {% for p in produtos %}
+            <tbody>
+              <tr>
+                <td>{{ p.nome }}</td>
+                <td>{{ p.preco }}</td>
+                <td>{{ p.qtde }}</td>
+                <td>{{ p.descricao }}</td>
+                <td>{{ p.data_de_validade }}</td>
+                <td>
+                    <a href="{% url 'urleditarProdutos' p.id %}" class="btn btn-warning">
+                        📝 Editar
+                    </a>
+                </td>
+              </tr>
+            </tbody>
+            {% endfor %}
+          </table>
+
+
+    </div>
+{% endblock %}
