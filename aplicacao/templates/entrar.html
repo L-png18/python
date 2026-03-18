@@ -1,5 +1,4 @@
 {% load bootstrap5 %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,22 +17,23 @@
             <div class="mb-3">
                 <input type="text" name="txtUser" placeholder="Digite o seu usuário..." class="form-control" required>
             </div>
+
             <div class="mb-3">
-                <input type="text" name="txtPass" placeholder="Digite  sua senha..." class="form-control re" required>
+                <input type="password" name="txtPass" placeholder="Digite a sua senha..." class="form-control" required>
             </div>
+
             <div class="mb-3">
-                <input type="submit" value="Entrar" class="btn btn-primary">
-                <a href="{% url 'urlcadastrarUsuario' %}" class="btn btn-success">Cadastrar</a>
+                <input type="submit" value="🏃‍♂️‍➡️ Entrar" class="btn btn-primary">
+                <a href="{% url 'urlcadastrarUsuario' %}" class="btn btn-success">➕ Cadastrar</a>
             </div>
         </form>
         {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-danger">
-                {{ message }}
-            </div>
+            {% for message in messages %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
             {% endfor %}
         {% endif %}
-
     </div>
 </body>
 </html>

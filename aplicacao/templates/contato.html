@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>CONTATO</h1>
-    <h2>Instituição: {{ nome }}</h2>
-    <h2>Telefone: {{ telefone }}</h2>
-    <h2>E-mail: {{ email }}</h2>
-    <a href="/">
-        <button>index</button>
-    </a>
+{% extends 'global/base.html' %}
 
-</body>
-</html>
+{% block title %}
+  Dashborad
+{% endblock %}
+
+{% block content %}
+    <h1>contato</h1>
+{% endblock %}

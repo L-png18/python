@@ -1,27 +1,22 @@
-{% load bootstrap5 %}
+{% extends 'global/base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Produto</title>
-    {% bootstrap_css %}
-</head>
-<body>
+{% block title %}
+  Editar Produto
+{% endblock %}
+
+{% block content %}
     <div class="container">
-    <h1>Edição de produto</h1>
-    <form action="{% url 'urleditarProduto' produto.id %}" method="POST">
-        {% csrf_token %}
-    <input type="text" name="txtNome" value="{{produto.nome}}" class="form-control">
-    <input type="text" name="txtPreco" value="{{produto.preco}}" class="form-control">
-    <input type="number" name="txtQtde" value="{{produto.qtde}}" class="form-control">
-    <input type="date" name="txtData" value="{{produto.data}}" class="form-control" required>
-    <input type="text" name="txtDescricao" value="{{produto.descricao}}" class="form-control">
+        <h1>Edição de produto</h1>
+        <form action="{% url 'urleditarProduto' p.id %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="txtNome" value="{{ p.nome }}" class="form-control">
+            <input type="text" name="txtPreco" value="{{ p.preco }}" class="form-control">
+            <input type="number" name="txtQtde" value="{{ p.qtde }}" class="form-control">
+            <input type="date" name="txtData" value="{{ p.data }}" class="form-control">
+            <input type="text" name="txtDescricao" value="{{ p.descricao }}" class="form-control">
 
-        <input type="submit" value="Salvar" class="btn btn-success">
-    </form>
+            <input type="submit" value="Salvar" class="btn btn-success">
+        </form>
     </div>
-</body>
-</html>
+
+{% endblock %}

@@ -1,15 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>PÁGINA INICIAL</h1>
-    <h2>{{ curso }}</h2>
-    <a href="contato">
-        <button>contato</button>
-    </a>    
-</body>
-</html>
+{% extends 'global/base.html' %}
+
+{% block title %}
+  Dashborad
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+      {% for p in produtos %}
+        <div class="card-group">
+          <div class="card">
+            <img src="{{ p.imagem.url }}" class="card-img-top" alt="{{ p.nome }}" style="height: 200px; object-fit: cover;" />
+            <div class="card-body">
+              <h5 class="card-title">{{ p.nome }}</h5>
+              <p class="card-text">{{ p.descricao|truncatechars:100 }}</p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">R${{ p.preco }}</small>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

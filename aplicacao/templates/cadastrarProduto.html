@@ -1,27 +1,21 @@
-{% load bootstrap5 %}
+{% extends 'global/base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Produto</title>
-    {% bootstrap_css %}
-</head>
-<body>
+{% block title %}
+  Novo Produto
+{% endblock %}
+
+{% block content %}
     <div class="container">
-    <h1>Cadastro de produto</h1>
-    <form action="{% url 'urlsalvarProduto' %}" method="post">
-        {% csrf_token %}
-    <input type="text" name="txtNome" placeholder="Digite o nome do produto..." class="form-control">
-    <input type="text" name="txtPreco" placeholder="Digite o preço do produto..." class="form-control">
-    <input type="number" name="txtQtde" placeholder="Digite a qtde do produto..." class="form-control">
-    <input type="date" name="txtData" placeholder="Digite a data de compra..." class="form-control">
-    <input type="text" name="txtDescricao" placeholder="Digite a descrição do produto..." class="form-control">
+        <form action="{% url 'urlsalvarProduto'%}" method="POST">
+            {% csrf_token %}
+            <h1>Cadastro de produto</h1>
+            <input type="text" name="txtNome" placeholder="Digite o nome do produto..." class="form-control">
+            <input type="text" name="txtPreco" placeholder="Digite o preço do produto..." class="form-control">
+            <input type="number" name="txtQtde" placeholder="Digite a qtde do produto..." class="form-control">
+            <input type="date" name="txtData" placeholder="Digite a data de compra..." class="form-control">
+            <input type="text" name="txtDescricao" placeholder="Digite a descrição do produto..." class="form-control">
 
-        <input type="submit" value="Salvar" class="btn btn-success">
-    </form>
+            <input type="submit" value="Salvar" class="btn btn-success">
+        </form>
     </div>
-</body>
-</html>
+{% endblock %}

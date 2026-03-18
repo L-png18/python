@@ -7,21 +7,17 @@ from django.contrib import messages
 from .form import UsuarioForm
 
 def index(request):
-    context = {'curso': 'Desenvolvimento de Sistemas'}
-    return render(request, 'index.html', context)
+    produtos = Produto.objects.all()
+    return render(request, 'index.html', {'produtos': produtos})
 
 def contato(request):
-    context = {
-        'nome': 'Instituto Federal de SC',
-        'telefone': '(47) 3363-5251', 
-        'email': 'contato@ifsc.edu.br'
-    }
+    context = {'curso': 'Desenvolvimento de Sistemas'}
     return render(request, 'contato.html', context)
 
 @login_required(login_url="urlentrar")
 def produto(request):
     produtos = Produto.objects.all()
-    context = {'produtos': produtos}  
+    context = {'produtos': produtos}
     return render(request, "produto.html", context)
 
 def cadastrarProduto(request):
@@ -46,15 +42,15 @@ def salvarProduto(request):
     return redirect('urlproduto')
 
 def editarProduto(request, id):
-    produto = get_object_or_404(Produto, id=id)
-    #produto = Produto.objects.get(id=id)
+    produto = get_object_or_404(Produto, id=id)  
+    #Produto.objects.get(id=id)
 
-    if request.method == 'GET':
-        context = {'produto': produto}
+    if request.method == "GET":
+        context = {'p': produto}
         return render(request, "editarProduto.html", context)
-    else: 
+    else:
         thisnome = request.POST.get('txtNome')
-        thispreco = request.POST.get('txtPreco').replace(',','.')
+        thispreco = request.POST.get('txtPreco').replace(',', '.')
         thisqtde = request.POST.get('txtQtde')
         thisdata = request.POST.get('txtData')
         thisdescricao = request.POST.get('txtDescricao')
@@ -69,12 +65,11 @@ def editarProduto(request, id):
         return redirect('urlproduto')
 
 def excluirProduto(request, id):
-    produto = get_object_or_404(Produto,id=id)
+    produto = get_object_or_404(Produto, id=id)
     produto.delete()
     return redirect('urlproduto')
 
 def entrar(request):
-
     if request.method == "GET":
         return render(request, "entrar.html")
     elif request.method == "POST":
@@ -98,7 +93,7 @@ def cadastrarUsuario(request):
         context = {'form': form}
         return render(request, 'cadastrarUsuario.html', context)
     else:
-        form = UsarioForm(request.POST, request.FILES)
+        form = UsuarioForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('urlentrar')
