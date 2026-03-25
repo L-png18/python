@@ -5,17 +5,42 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <form action="{% url 'urlsalvarProduto'%}" method="POST">
-            {% csrf_token %}
-            <h1>Cadastro de produto</h1>
-            <input type="text" name="txtNome" placeholder="Digite o nome do produto..." class="form-control">
-            <input type="text" name="txtPreco" placeholder="Digite o preço do produto..." class="form-control">
-            <input type="number" name="txtQtde" placeholder="Digite a qtde do produto..." class="form-control">
-            <input type="date" name="txtData" placeholder="Digite a data de compra..." class="form-control">
-            <input type="text" name="txtDescricao" placeholder="Digite a descrição do produto..." class="form-control">
+<div class="container mt-4">
+    <h2>Cadastro de Produto</h2>
+    <form action="{% url 'urlsalvarProduto' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="txtNome" class="form-label">Nome do Produto</label>
+            <input type="text" id="txtNome" name="txtNome" placeholder="Digite o nome do produto..." class="form-control">
+        </div>
 
-            <input type="submit" value="Salvar" class="btn btn-success">
-        </form>
-    </div>
+        <div class="mb-3">
+            <label for="txtPreco" class="form-label">Preço</label>
+            <input type="text" id="txtPreco" name="txtPreco" placeholder="Digite o preço do produto..." class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="txtQtde" class="form-label">Quantidade</label>
+            <input type="number" id="txtQtde" name="txtQtde" placeholder="Digite a quantidade do produto..." class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="txtData" class="form-label">Data de Compra</label>
+            <input type="date" id="txtData" name="txtData" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="txtDescricao" class="form-label">Descrição</label>
+            <textarea id="txtDescricao" name="txtDescricao" placeholder="Digite a descrição do produto..." class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="txtImagem" class="form-label">Imagem do Produto</label>
+            <input type="file" id="txtImagem" name="txtImagem" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar</button>
+    </form>
+</div>
 {% endblock %}

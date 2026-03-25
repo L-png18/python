@@ -30,13 +30,15 @@ def salvarProduto(request):
     thisqtde = request.POST.get('txtQtde')
     thisdata = request.POST.get('txtData')
     thisdescricao = request.POST.get('txtDescricao')
+    thisimagem = request.FILES.get('txtImagem')
 
     produto = Produto(
         nome = thisnome,
         preco = float(thispreco),
         qtde = thisqtde,
         data = thisdata,
-        descricao = thisdescricao
+        descricao = thisdescricao,
+        imagem=thisimagem
     )
 
     produto.save()
