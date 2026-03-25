@@ -1,11 +1,13 @@
 from django.db import models
+from django.db import User
+from django.db import Venda
 
 class Perfil(models.Model):
     telefone = models.CharField(max_length=25, null=True, blank=True)
     rua = models.CharField(max_length=50, null=True, blank=True)
     numero = models.IntegerField(null=True, blank=True)
     bairro = models.CharField(max_length=50, null=True, blank=True)
-    cidade = models.CharField(max_lenght=50, null=True, blank=True)
+    cidade = models.CharField(max_length=50, null=True, blank=True)
     complemento = models.CharField(max_length=100, null=True, blank=True)
     cep = models.CharField(max_length=50, null=True, blank=True)
     cliente = models.OneToOneField(User, on_delete=models.CASCADE)
