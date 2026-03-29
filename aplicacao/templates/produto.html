@@ -5,53 +5,75 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <h1>Lista de Produtos</h1>
-    <div class="mb-3">
-      <a href="{% url 'urlsair' %}" class="btn btn-danger">🏃‍♀️‍➡️ Sair</a>
-    </div>
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Preço</th>
-          <th scope="col">Qtde</th>
-          <th scope="col">Data</th>
-          <th scope="col">Descrição</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Excluir</th>
-        </tr>
-      </thead>
-      {% for p in produtos %}
-        <tbody>
-          <tr>
-            <th scope="row">{{ p.id }}</th>
-            <td>{{ p.nome }}</td>
-            <td>R${{ p.preco }}</td>
-            <td>{{ p.qtde }}</td>
-            <td>{{ p.data }}</td>
-            <td>{{ p.descricao }}</td>
-            <td>
-              <form action="{% url 'urleditarProduto' p.id %}" method="GET">
-                {% csrf_token %}
-                <input type="submit" value="Editar" class="btn btn-primary" />
-              </form>
-            </td>
+<div class="container mt-5">
 
-            <td>
-              <form action="{% url 'urlexcluirProduto' p.id %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Excluir" class="btn btn-danger" />
-              </form>
-            </td>
-          </tr>
-        </tbody>
-      {% endfor %}
-    </table>
-    <form action="{% url 'urlcadastrarProduto' %}" method="POST">
-      {% csrf_token %}
-      <input type="submit" value="Novo Produto" class="btn btn-primary" />
-    </form>
-  </div>
+    <!-- Cabeçalho -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>📦 Lista de Produtos</h2>
+
+        <div>
+            <a href="{% url 'urlcadastrarProduto' %}" class="btn btn-success">
+                ➕ Novo Produto
+            </a>
+            <a href="{% url 'urlsair' %}" class="btn btn-danger">
+                🚪 Sair
+            </a>
+        </div>
+    </div>
+
+    <!-- Tabela -->
+    <div class="card shadow-sm p-3">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Qtde</th>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for p in produtos %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td class="fw-semibold">{{ p.nome }}</td>
+                        <td>R$ {{ p.preco }}</td>
+                        <td>{{ p.qtde }}</td>
+                        <td>{{ p.data }}</td>
+                        <td>
+                            {{ p.descricao|truncatechars:30 }}
+                        </td>
+
+                        <td class="text-center">
+                            <a href="{% url 'urleditarProduto' p.id %}" class="btn btn-sm btn-primary">
+                                ✏️
+                            </a>
+
+                            <form action="{% url 'urlexcluirProduto' p.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    🗑️
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">
+                            Nenhum produto cadastrado.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
 {% endblock %}
