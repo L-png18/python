@@ -1,7 +1,10 @@
 from django.urls import path
-from .views import index, contato, produto, entrar, sair 
-from .views import cadastrarProduto, salvarProduto, editarProduto, excluirProduto
-from .views import cadastrarUsuario
+from .views import (
+    index, contato, produto, entrar, sair,
+    cadastrarProduto, salvarProduto, editarProduto, excluirProduto,
+    cadastrarUsuario,
+    criarVenda, adicionarItem, listarVendas  
+)
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -16,4 +19,7 @@ urlpatterns = [
     path('entrar/', entrar, name="urlentrar"),
     path('sair/', sair, name="urlsair"),
     path('cadastrarUsuario/', cadastrarUsuario, name="urlcadastrarUsuario"),
+    path('venda/criar/', criarVenda, name='urlCriarVenda'),
+    path('venda/<int:venda_id>/item/', adicionarItem, name='urlAdicionarItem'),
+    path('vendas/', listarVendas, name='urlListarVendas'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

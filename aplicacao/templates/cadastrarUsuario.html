@@ -1,7 +1,7 @@
 {% extends 'global/base.html' %}
 
 {% block title %}
-  Novo Usuário
+    Novo Usuário
 {% endblock %}
 
 {% block content %}
@@ -13,7 +13,6 @@
         <form action="{% url 'urlcadastrarUsuario' %}" method="POST">
             {% csrf_token %}
             
-            <!-- Dados de usuário -->
             <h5 class="mb-3 border-bottom pb-2">🔐 Dados de Acesso</h5>
 
             {% for field in user_form %}
@@ -32,7 +31,6 @@
                 </div>
             {% endfor %}
             
-            <!-- Dados de perfil -->
             <h5 class="mt-4 mb-3 border-bottom pb-2">📋 Dados Pessoais</h5>
 
             {% for field in perfil_form %}
@@ -51,7 +49,6 @@
                 </div>
             {% endfor %}
             
-            <!-- Botões -->
             <div class="d-flex justify-content-between mt-4">
                 <a href="javascript:history.back()" class="btn btn-secondary">
                     ⬅ Voltar
