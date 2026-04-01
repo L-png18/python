@@ -10,6 +10,7 @@ class Produto(models.Model):
 
     def __str__(self):
         return self.nome
+
 class Perfil(models.Model):
     telefone = models.CharField(max_length=25, null=True, blank=True)
     rua = models.CharField(max_length=50, null=True, blank=True)
@@ -25,14 +26,34 @@ class Perfil(models.Model):
         return f'Perfil de {self.cliente.username}'
 
 class Venda(models.Model):
+    STATUS_CHOICES = (
+        ('P', 'PENDENTE'),
+        ('C', 'CONCLUIDA'),
+        ('X', 'CANCELADA')
+    )
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     data = models.DateField(auto_now_add=True)
     cliente = models.ForeignKey(User, on_delete=models.CASCADE)
     produtos = models.ManyToManyField(Produto, through='ItemVenda')
 
     def __str__(self):
-        return f'Venda {self.id} - {self.data}'
+        return f'Venda {self.id} - {self.cliente.username} ({self.get_status_display()})'
+    
+    @property
+    def total(self):
+        total=0
+        for item in self.ItemVenda_set_all():
+            total += item.produto.preco * item.qtde
+        return total
     
 class ItemVenda(models.Model):
     venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    qtde= models.IntegerField()
+    qtde = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.produto.nome}'
+
+    @property
+    def subtotal(self):
+        return self.produto.preco * self.qtde
