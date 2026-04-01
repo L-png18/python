@@ -7,6 +7,7 @@ from .views import (
 )
 from django.conf.urls.static import static
 from django.conf import settings
+from .import views
 
 urlpatterns = [
     path('', index, name="urlindex"),
@@ -22,4 +23,7 @@ urlpatterns = [
     path('venda/criar/', criarVenda, name='urlCriarVenda'),
     path('venda/<int:venda_id>/item/', adicionarItem, name='urlAdicionarItem'),
     path('vendas/', listarVendas, name='urlListarVendas'),
+
+    ### Carrinho
+    path('vercarrinho', views.vercarrinho, name="urlvercarrinho"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

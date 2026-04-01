@@ -34,7 +34,6 @@ class Venda(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     data = models.DateField(auto_now_add=True)
     cliente = models.ForeignKey(User, on_delete=models.CASCADE)
-    produtos = models.ManyToManyField(Produto, through='ItemVenda')
 
     def __str__(self):
         return f'Venda {self.id} - {self.cliente.username} ({self.get_status_display()})'

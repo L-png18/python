@@ -1,12 +1,51 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import Produto, Venda, ItemVenda 
+from .models import Produto, Venda, ItemVenda, Perfil 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .form import UsuarioForm, PerfilForm
 from django.contrib.auth import login
 
+
+### CARRINHO ####
+def get_or_create_carrinho(request):
+    venda, created = Venda.objects.get_or_create(
+        cliente = request.user,
+        status = 'P' # Venda Pendente
+    )
+    return venda
+
+def vercarrinho(request):
+    venda = get_or_create_carrinho(request)
+    itens = venda.itemvenda_set.all()
+    perfil = getattr(request.user, 'perfil', None)
+
+    context = {
+        'venda': venda,
+        'itens': itens,
+        'perfil': perfil
+    }
+
+    return render(request, 'vercarrinho.html', context)
+
+def atualizarcarrinho(request, item_id):
+    item = get_object_or_404(ItemVenda, id=item_id, venda__cliente=request.user)
+
+    if request.method == 'POST':
+        acao = request.POST.get('acao')
+        if item.qtde < item.produto.qtde:
+            item.qtde += 1
+            item.save()
+        elif acao == 'diminuir':
+            if item.qtde > 1:
+                item.qtde -= 1
+                item.save()
+            else: # se for 1 e diminuir, então remove
+                item.delete()
+        elif acao == 'remover':
+            item.delete()
+    return redirect('vercarrinho')
 
 def index(request):
     produtos = Produto.objects.all()
