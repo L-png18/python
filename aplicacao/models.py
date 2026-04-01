@@ -41,7 +41,7 @@ class Venda(models.Model):
     @property
     def total(self):
         total=0
-        for item in self.ItemVenda_set_all():
+        for item in self.itemvenda_set.all():
             total += item.produto.preco * item.qtde
         return total
     
