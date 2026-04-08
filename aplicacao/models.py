@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Avg
 
 class Produto(models.Model):
     nome = models.CharField(max_length=100, null=True, blank=True)
@@ -11,6 +12,15 @@ class Produto(models.Model):
 
     def __str__(self):
         return self.nome
+
+    @property
+    def media_avaliacoes(self):
+        media = self.avaliacoes.aggregate(Avg('nota'))['nota__avg']
+        return round(media, 1) if media else 0 
+
+    @property
+    def total_avaliacoes(self):
+        return self.avaliacoes.count()
 
 class Perfil(models.Model):
     telefone = models.CharField(max_length=25, null=True, blank=True)
@@ -71,7 +81,7 @@ class Avaliacao(models.Model):
         ordering = ['-data']
 
     def save(self, *args, **kwargs):
-        from vendas.models import Venda, ItemVenda
+        from .models import Venda, ItemVenda
         comprou = ItemVenda.objects.filter(
             venda__cliente = self.cliente,
             venda__status__in = ['PAGO', 'ENTREGUE'],

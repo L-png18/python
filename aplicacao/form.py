@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Perfil
+from .models import Avaliacao
 
 class UsuarioForm(UserCreationForm):
     email = forms.EmailField(label='E-mail',widget=forms.EmailInput(attrs={'class': 'form-control'}))
@@ -26,3 +27,13 @@ class PerfilForm(forms.ModelForm):
             'complemento': forms.TextInput(attrs={'class': 'form-control'}),
             'cep': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+class AvaliacaoForm(forms.ModelForm):
+    class Meta: 
+        model = Avaliacao
+        fields = ['nota', 'comentario']
+        widgets = {
+            'nota': forms.RadioSelect(attrs={'class': 'rating-input'}),
+            'comentario': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'compartilhe a sua experiência...'
+        })
+    }
