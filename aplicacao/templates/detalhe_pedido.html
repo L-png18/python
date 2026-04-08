@@ -1,0 +1,48 @@
+{% extends 'global/base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Detalhes do Pedido #{{venda.id}}</h3>
+            <p class="text-muted">Realizado em: {{ venda.data|date:"d/m/Y" }}</p>
+            <hr />
+        </div>
+    </div>
+
+    
+    <div class="row">
+        <div class="col-md-8">
+            <h5>Itens</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Qtde</th>
+                        <th>Preço</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in itens %}
+                    <tr>
+                        <td> {{ item.produto.nome }}</td>
+                        {% if item.produto.imagem %}
+                            <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}" width="50" class="ms-2" />
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3" class="text-end">Total Geral:</th>
+                        <th>R$ {{ venda.total }}</th> 
+                    </tr>
+                </tfoot>
+            </table>
+            <a href="{% url 'urlhistorico' %}" class="btn btn-secondary">Voltar ao Histórico</a>
+        </div>
+</div>
+
+{% endblock %}

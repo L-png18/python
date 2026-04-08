@@ -8,6 +8,36 @@ from .form import UsuarioForm, PerfilForm
 from django.contrib.auth import login
 
 
+@login_required
+def detalhe_pedido(request, venda_id):
+    venda = get_object_or_404(Venda, id=venda_id, cliente=request.user)
+
+    if venda.cliente != request.user:
+        return redirect("historico_pedidos")
+
+    itens = venda.itemvenda_set.all()
+
+    try:
+        perfil= Perfil.objects.get(cliente=request.user)
+    except Perfil.DoesNotExist:
+        perfil = None
+
+    context = {
+        'venda': venda,
+        'itens': itens,
+        'perfil': perfil
+    }
+    return render(request, 'detalhe_pedido.html', context)
+
+@login_required
+def historico_pedidos(request):
+    pedidos = Venda.objects.filter(
+        cliente = request.user, 
+        status = 'C'
+    ).order_by('-data')
+
+    return render(request, 'historico_pedidos.html', {'pedidos': pedidos})
+
 ### CARRINHO ####
 def get_or_create_carrinho(request):
     venda, created = Venda.objects.get_or_create(
@@ -190,47 +220,3 @@ def cadastrarUsuario(request):
         perfil_form = PerfilForm()
 
     return render(request, 'cadastrarUsuario.html', {'user_form': user_form, 'perfil_form': perfil_form})
-
-
-@login_required(login_url="urlentrar")
-def criarVenda(request):
-    venda = Venda.objects.create(cliente=request.user)
-    return redirect('urlAdicionarItem', venda_id=venda.id)
-
-
-@login_required(login_url="urlentrar")
-def adicionarItem(request, venda_id):
-    venda = get_object_or_404(Venda, id=venda_id)
-
-    if request.method == "POST":
-        produto_id = request.POST.get('produto_id')
-        qtde = request.POST.get('qtde')
-
-        if not qtde:
-            messages.error(request, "Informe a quantidade")
-            return redirect('urlAdicionarItem', venda_id=venda.id)
-
-        quantidade = int(qtde)
-
-        produto = get_object_or_404(Produto, id=produto_id)
-
-        ItemVenda.objects.create(
-            venda=venda,
-            produto=produto,
-            qtde=quantidade
-        )
-
-    produtos = Produto.objects.all()
-    itens = ItemVenda.objects.filter(venda=venda)
-
-    return render(request, 'adicionarItem.html', {
-        'venda': venda,
-        'produtos': produtos,
-        'itens': itens
-    })
-
-
-@login_required(login_url="urlentrar")
-def listarVendas(request):
-    vendas = Venda.objects.filter(cliente=request.user)
-    return render(request, 'listarVendas.html', {'vendas': vendas})
