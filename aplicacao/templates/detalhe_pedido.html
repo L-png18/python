@@ -19,6 +19,7 @@
                 <thead>
                     <tr>
                         <th>Produto</th>
+                        <th>Imagem</th>
                         <th>Qtde</th>
                         <th>Preço</th>
                         <th>Subtotal</th>
@@ -27,10 +28,15 @@
                 <tbody>
                     {% for item in itens %}
                     <tr>
-                        <td> {{ item.produto.nome }}</td>
+                        <td>{{ item.produto.nome }}</td>
+                        <td>
                         {% if item.produto.imagem %}
                             <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}" width="50" class="ms-2" />
                         {% endif %}
+                        </td>
+                        <td>{{ item.qtde }}</td>
+                        <td>{{ item.produto.preco }}</td>
+                        <td>{{ item.subtotal }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -42,6 +48,24 @@
                 </tfoot>
             </table>
             <a href="{% url 'urlhistorico' %}" class="btn btn-secondary">Voltar ao Histórico</a>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5>Endereço de Entrega</h5>
+                    {% if perfil %}
+                        <p class="card-text">
+                            <strong>{{ perfil.cliente.first_name }} {{ perfil.cliente.last_name }}</strong><br>
+                            {{ perfil.rua }},{{ perfil.numero }} {{ perfil.complemento }} <br>
+                            {{ perfil.bairro }} <br>
+                            {{ perfil.cidade }} - {{ perfil.cep }} <br>
+                            Tel. {{ perfil.telefone }}
+                        </p>
+                    {% endif %}
+                    <hr />
+                    <h5 class="card-title">Status</h5>
+                    <p class="card-text text-success fw-bold">{{ venda.get_status_display }}</p>
         </div>
 </div>
 

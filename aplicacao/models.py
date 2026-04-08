@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 class Produto(models.Model):
     nome = models.CharField(max_length=100, null=True, blank=True)
     preco = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
@@ -56,3 +57,25 @@ class ItemVenda(models.Model):
     @property
     def subtotal(self):
         return self.produto.preco * self.qtde
+
+class Avaliacao(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(User, on_delete=models.CASCADE)
+    nota = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
+    comentario = models.TextField(blank=True, null=True)
+    data = models.DateField(auto_now_add=True)
+    verificada = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ['produto', 'cliente']
+        ordering = ['-data']
+
+    def save(self, *args, **kwargs):
+        from vendas.models import Venda, ItemVenda
+        comprou = ItemVenda.objects.filter(
+            venda__cliente = self.cliente,
+            venda__status__in = ['PAGO', 'ENTREGUE'],
+            produto=self.produto
+        ).exists()
+        self.verificada = comprou
+        super().save(*args, **kwargs)
